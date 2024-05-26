@@ -1,0 +1,55 @@
+local fanum = game:GetService("UserInputService")
+local skibidi = game:GetService("Players")
+local ohio = skibidi.LocalPlayer
+local cameraaa = game.Workspace.CurrentCamera
+local aimbottednooobed = nil
+local aimEnabled = false
+local function on(input, gameProcessed)
+	if gameProcessed then
+		return
+	end
+	if input.KeyCode == Enum.KeyCode.Q then
+		aimEnabled = not aimEnabled
+		if aimEnabled then
+			if not aimbottednooobed then
+				aimbottednooobed = hot()
+			end
+		else
+			aimbottednooobed = nil
+		end
+	end
+	if input.KeyCode == Enum.KeyCode.Q then
+		if aimEnabled then
+			Rizz()
+		end
+	end
+end
+function Rizz()
+	if aimbottednooobed then
+		while aimEnabled do
+			local lookVector = (aimbottednooobed.Position - cameraaa.CFrame.Position).unit
+			local newCFrame = CFrame.new(cameraaa.CFrame.Position, cameraaa.CFrame.Position + lookVector)
+			cameraaa.CFrame = newCFrame
+			wait()
+		end
+	end
+end
+
+function hot()
+	local closestTarget = nil
+	local shortestDistance = math.huge
+
+	for _, v in pairs(skibidi:GetPlayers()) do
+		if v ~= ohio and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+			local distance = (v.Character.HumanoidRootPart.Position - ohio.Character.HumanoidRootPart.Position).magnitude
+			if distance < shortestDistance then
+				closestTarget = v.Character.HumanoidRootPart
+				shortestDistance = distance
+			end
+		end
+	end
+
+	return closestTarget
+end
+
+fanum.InputBegan:Connect(on)
